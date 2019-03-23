@@ -1,5 +1,4 @@
 # Git Meta
-New Video
 
 POC on injecting metadata into an indivdual commit message
 
