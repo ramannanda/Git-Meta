@@ -7,4 +7,14 @@
 #
 # To enable this hook, rename this file to "commit-msg".
 
+get_clean_message() {
+  egrep -o '^[^#].*' "$1"
+}
+
+# Do not allow empty messages after removing comments
+[ -z "$(get_clean_message "$1")" ] && {
+  echo >&2 Commit message cannot be empty.
+  exit 1
+}
+
 echo "$(cat "$1" | perl -p -e 's/#!()/$1/')" > "$1"
