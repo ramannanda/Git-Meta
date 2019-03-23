@@ -12,6 +12,12 @@
 # Succeed on all merge messages, as evidenced by MERGE_MSG existing
 [ -f $GIT_DIR/MERGE_MSG ] && exit 0
 
+#Prevents the branch code from being triggered if any parameter was passed to git commit e.g -m or --amend (if length of parameter 2 is > 0)
+if [ "$2" ]
+then
+    exit
+fi
+
 BUFFER=""
 BREAK="#!-----------------------------------------------\n"
 
