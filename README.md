@@ -9,3 +9,4 @@ Supports: MacOS Mojave, Spotify 1.1.2.285
 
 hi
 hi
+hi
