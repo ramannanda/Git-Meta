@@ -31,5 +31,3 @@ rm -rf ~/.git-template/hooks/commit-msg
 ```
 
 ## Examples
-hi
-hi

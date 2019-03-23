@@ -8,7 +8,7 @@
 # To enable this hook, rename this file to "commit-msg".
 
 get_clean_message() {
-  egrep -o '^[^#].*' "$1"
+  egrep -o '^[[:space:]]*$|^ *#' "$1"
 }
 
 # Do not allow empty messages after removing comments
