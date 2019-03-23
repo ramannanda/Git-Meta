@@ -7,10 +7,18 @@
 #
 # To enable this hook, rename this file to "commit-msg".
 
+get_clean_message() {
+  egrep -o '^[[:space:]]*$|^ *#' "$1"
+}
+
 TEXT=$(cat "$1" | sed '/^#.*/d')
 if [ -n "$TEXT" ]
 then
-  echo "$(cat "$1" | perl -p -e 's/#!()/$1/')" > "$1"
+	[ -z "$(get_clean_message "$1")" ] && {
+	  echo >&2 Commit message cannot be empty.
+	  exit 1
+	}
+	echo "$(cat "$1" | perl -p -e 's/#!()/$1/')" > "$1"
 else
     echo "Aborting commit due to empty commit message."
     exit 1
