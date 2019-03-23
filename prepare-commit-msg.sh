@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# prepare-commit-msg
+# This hook will extract meta info from the system and push
+# it as a comment in the commit
+#
+# Currently Supported: Git Branch Info, Spotify Current Track
+#
+# To enable this hook, rename this file to "prepare-commit-msg".
+#
+
+# Succeed on all merge messages, as evidenced by MERGE_MSG existing
+[ -f $GIT_DIR/MERGE_MSG ] && exit 0
+
+BUFFER=""
+BREAK="#!-----------------------------------------------\n"
+
+BRANCH_NAME=$(git branch | grep '*' | sed 's/* //')
+# Don't apply this logic if we are in a 'detached head' state (rebasing, read-only history, etc)
+if [ "$NAME" != "(no branch)" ]; then
+    BUFFER+="#! 🌲  | $BRANCH_NAME\n"
+fi
+
+STATE=$(osascript -e 'tell application "Spotify" to player state as string');
+if [ "$STATE" = "playing" ]; then
+  ARTIST=$(osascript -e 'tell application "Spotify" to artist of current track as string');
+  TRACK=$(osascript -e 'tell application "Spotify" to name of current track as string');
+  BUFFER+="#! 🎧  | $ARTIST - $TRACK\n"
+fi
+
+BUFFER="\n\n$BREAK$BUFFER"
+BUFFER+="$BREAK"
+echo "$BUFFER $(cat $1)" > $1
