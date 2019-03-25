@@ -1,0 +1,25 @@
+{
+  "name": "git-meta",
+  "version": "1.0.0",
+  "description": "POC on injecting metadata into an indivdual commit message\r Currently the script append the current branch as well as\r conditionally add Spotify's Now Playing info",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramannanda/Git-Meta.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ramannanda/Git-Meta/issues"
+  },
+  "homepage": "https://github.com/ramannanda/Git-Meta#readme",
+  "devDependencies": {
+    "del": "^4.0.0",
+    "fs-extra": "^7.0.1",
+    "mocha": "^6.0.2",
+    "simple-git": "^1.110.0"
+  }
+}
