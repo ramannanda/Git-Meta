@@ -78,17 +78,20 @@ echo "$(cat $1)"
 echo "$2"
 echo "$3"
 
+META="$(push_meta)"
 if [ -z "$2" ]
 then
-	META="$(push_meta)"
 	echo "\n\n$META\n$(cat $1)" > $1 && exit 0
 elif [ "$2" == "message" ]
 then
-	META="$(push_meta)"
-	echo "$(cat $1)\n$META" > $1 && exit 0
+	echo "$(cat $1)\n\n$META" > $1 && exit 0
+elif [ "$2" == "commit" ]
+then
+	echo "$(cat "$1" | perl -p -e 's/⋮()/#!$1/')" > "$1"
 else
 	echo "else"
 fi
+
 
 # # Succeed on all merge messages, as evidenced by MERGE_MSG existing
 # [ -f $GIT_DIR/MERGE_MSG ] && exit 0
