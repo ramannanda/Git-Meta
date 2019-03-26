@@ -81,7 +81,7 @@ echo "$3"
 if [ -z "$2" ] || [ "$2" == "message" ]
 then
 	META="$(push_meta)"
-	echo "\n\n$META\n$(cat $1)" > $1
+	echo "\n\n$META\n$(cat $1)" > $1 && exit 0
 else
 	echo "else"
 fi
