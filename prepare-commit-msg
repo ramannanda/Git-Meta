@@ -88,6 +88,9 @@ then
 elif [ "$2" == "commit" ]
 then
 	echo "$(cat "$1" | perl -p -e 's/⋮()/#!⋮$1/')" > "$1"
+elif [ "$2" == "merge" ] || [ -f $GIT_DIR/MERGE_MSG ]
+then
+	exit 0
 else
 	echo "else"
 fi
