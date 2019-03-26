@@ -74,9 +74,9 @@ if [ $# -eq 0 ]
     echo "No arguments supplied!" && exit 0
 fi
 
-# echo "$(cat $1)"
-# echo "$2"
-# echo "$3"
+echo "$(cat $1)"
+echo "$2"
+echo "$3"
 
 if [ -z "$2" ] || [ "$2" == "message" ]
 then
