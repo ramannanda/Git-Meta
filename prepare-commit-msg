@@ -54,6 +54,13 @@ echo "$(cat $1)"
 echo "$2"
 echo "$3"
 
+if [ -z "$2" ] || [ "$2" == "message" ]
+then
+	echo "message"
+else
+	echo "else"
+fi
+
 # Succeed on all merge messages, as evidenced by MERGE_MSG existing
 [ -f $GIT_DIR/MERGE_MSG ] && exit 0
 
