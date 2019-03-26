@@ -45,7 +45,7 @@
 
 # usage
 
-function push_meta {
+push_meta() {
 	BUFFER=""
 	BREAK="#!-----------------------------------------------\n"
 
@@ -62,9 +62,10 @@ function push_meta {
 	  BUFFER+="#! 🎧  | $ARTIST - $TRACK\n"
 	fi
 
-	BUFFER="\n\n$BREAK$BUFFER"
+	BUFFER="$BREAK$BUFFER"
 	BUFFER+="$BREAK"
-	echo "$BUFFER $(cat $1)" > $1
+	local META="$BUFFER"
+	echo "$META"
 }
 
 
@@ -73,13 +74,14 @@ if [ $# -eq 0 ]
     echo "No arguments supplied!" && exit 0
 fi
 
-echo "$(cat $1)"
-echo "$2"
-echo "$3"
+# echo "$(cat $1)"
+# echo "$2"
+# echo "$3"
 
 if [ -z "$2" ] || [ "$2" == "message" ]
 then
-	push_meta
+	META="$(push_meta)"
+	echo "\n\n$META\n$(cat $1)" > $1
 else
 	echo "else"
 fi
