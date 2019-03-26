@@ -79,12 +79,15 @@ echo "$2"
 echo "$3"
 
 META="$(push_meta)"
+# Regular Commit
 if [ -z "$2" ]
 then
 	echo "\n\n$META\n$(cat $1)" > $1 && exit 0
+# Commit with Message
 elif [ "$2" == "message" ]
 then
 	echo "$(cat $1)\n\n$META" > $1 && exit 0
+# Commit - Amend
 elif [ "$2" == "commit" ]
 then
 	echo "$(cat "$1" | perl -p -e 's/⋮()/#!⋮$1/')" > "$1"
