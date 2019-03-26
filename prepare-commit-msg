@@ -74,9 +74,9 @@ if [ $# -eq 0 ]
     echo "No arguments supplied!" && exit 0
 fi
 
-echo "$(cat $1)"
-echo "$2"
-echo "$3"
+# echo "$(cat $1)"
+# echo "$2"
+# echo "$3"
 
 META="$(push_meta)"
 # Regular Commit
@@ -96,15 +96,5 @@ else
 	echo "$(cat $1)" && exit 0
 fi
 
-
-
-# # Succeed on all merge messages, as evidenced by MERGE_MSG existing
-# [ -f $GIT_DIR/MERGE_MSG ] && exit 0
-
-# #Prevents the branch code from being triggered if any parameter was passed to git commit e.g -m or --amend (if length of parameter 2 is > 0)
-# if [ "$2" ]
-# then
-#     exit
-# fi
 
 
