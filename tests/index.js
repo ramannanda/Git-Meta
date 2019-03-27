@@ -160,11 +160,11 @@ describe('git', function() {
       done();
     });
 
-    it('should exit 1 if message is empty', function() {
+    it('should exit 1 if message is empty', function(done) {
       var cmd = './commit-msg ' + tmpEmptyFile.name;
       exec(cmd, function(err, stdout, stderr) {
-        assert.equal(err, null);
-        assert.equal(stdout, "Commit message cannot be empty.\n");
+        assert.notEqual(err, null);
+        assert.equal(stdout, "Aborting commit due to empty commit message.\n");
         assert.equal(stderr, "");
 
         assert.equal(
@@ -175,20 +175,50 @@ describe('git', function() {
       });
     });
 
-    it('should exit 1 if message only contains comments', function() {
+    it('should exit 1 if message only contains comments', function(done) {
       var cmd = './commit-msg ' + tmpCommentFile.name;
       exec(cmd, function(err, stdout, stderr) {
-        assert.equal(err, null);
-        assert.equal(stdout, "Commit message cannot be empty.\n");
+        assert.notEqual(err, null);
+        assert.equal(stdout, "Aborting commit due to empty commit message.\n");
         assert.equal(stderr, "");
 
         assert.equal(
           fs.readFileSync(tmpCommentFile.name, "utf8"),
-          fs.readFileSync('./tests/fixtures/Empty.txt', "utf8")
+          fs.readFileSync('./tests/fixtures/Comment.txt', "utf8")
         );
         done();
       });
     });
 
+    it.skip('should do nothing if regular commit message', function(done) {
+      var cmd = './commit-msg ' + tmpMessageFile.name;
+      exec(cmd, function(err, stdout, stderr) {
+        console.log(arguments);
+        assert.notEqual(err, null);
+        assert.equal(stdout, "commit message here");
+        // assert.equal(stderr, "");
+
+        assert.equal(
+          fs.readFileSync(tmpMessageFile.name, "utf8"),
+          fs.readFileSync('./tests/fixtures/Message.txt', "utf8")
+        );
+        done();
+      });
+    });
+
+    it.skip('should remove commits from meta', function(done) {
+      var cmd = './commit-msg ' + tmpMetaFile.name;
+      exec(cmd, function(err, stdout, stderr) {
+        assert.equal(err, null);
+        assert.equal(stdout, "");
+        assert.equal(stderr, "");
+
+        assert.equal(
+          fs.readFileSync(tmpMetaFile.name, "utf8"),
+          fs.readFileSync('./tests/fixtures/Empty.txt', "utf8")
+        );
+        done();
+      });
+    });
   });
 });
