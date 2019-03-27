@@ -6,6 +6,6 @@ conditionally add Spotify's Now Playing info
 
 ## Demo
 
-![](Demo.gif)
+![](Demo.gif | width=100)
 
 Supports: MacOS Mojave, Spotify 1.1.2.285
