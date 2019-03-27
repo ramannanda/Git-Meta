@@ -25,6 +25,7 @@ describe('git', function() {
     fs.copySync('./tests/fixtures/Empty.txt', tmpEmptyFile.name);
     fs.copySync('./tests/fixtures/Message.txt', tmpMessageFile.name);
     fs.copySync('./tests/fixtures/Amend.txt', tmpAmendFile.name);
+
     done();
   });
 
@@ -114,14 +115,80 @@ describe('git', function() {
     });
 
     it('should do nothing on merge', function(done) {
-      done();
+      var cmd = './prepare-commit-msg ' + tmpMessageFile.name + ' merge';
+      exec(cmd, function(err, stdout, stderr) {
+        assert.equal(err, null);
+        assert.equal(stdout, "commit message here\n");
+        assert.equal(stderr, "");
+
+        assert.equal(
+          fs.readFileSync(tmpMessageFile.name, "utf8"),
+          fs.readFileSync('./tests/fixtures/1-Merge.txt', "utf8")
+        );
+        done();
+      });
     });
   });
 
   describe('commit-msg', function() {
+
+    var tmpEmptyFile;
+    var tmpCommentFile;
+    var tmpMessageFile;
+    var tmpMetaFile;
+
+    beforeEach(function(done) {
+      tmpEmptyFile = tmp.fileSync();
+      tmpCommentFile = tmp.fileSync();
+      tmpMessageFile = tmp.fileSync();
+      tmpMetaFile = tmp.fileSync();
+
+      fs.copySync('./tests/fixtures/Empty.txt', tmpEmptyFile.name);
+      fs.copySync('./tests/fixtures/Comment.txt', tmpCommentFile.name);
+      fs.copySync('./tests/fixtures/Message.txt', tmpMessageFile.name);
+      fs.copySync('./tests/fixtures/Meta.txt', tmpMetaFile.name);
+
+      done();
+    });
+
+    afterEach(function(done) {
+      fs.removeSync(tmpEmptyFile.name);
+      fs.removeSync(tmpCommentFile.name);
+      fs.removeSync(tmpMessageFile.name);
+      fs.removeSync(tmpMetaFile.name);
+
+      done();
+    });
+
     it('should exit 1 if message is empty', function() {
+      var cmd = './commit-msg ' + tmpEmptyFile.name;
+      exec(cmd, function(err, stdout, stderr) {
+        assert.equal(err, null);
+        assert.equal(stdout, "Commit message cannot be empty.\n");
+        assert.equal(stderr, "");
+
+        assert.equal(
+          fs.readFileSync(tmpEmptyFile.name, "utf8"),
+          fs.readFileSync('./tests/fixtures/Empty.txt', "utf8")
+        );
+        done();
+      });
     });
-    it('should remove commits from meta', function() {
+
+    it('should exit 1 if message only contains comments', function() {
+      var cmd = './commit-msg ' + tmpCommentFile.name;
+      exec(cmd, function(err, stdout, stderr) {
+        assert.equal(err, null);
+        assert.equal(stdout, "Commit message cannot be empty.\n");
+        assert.equal(stderr, "");
+
+        assert.equal(
+          fs.readFileSync(tmpCommentFile.name, "utf8"),
+          fs.readFileSync('./tests/fixtures/Empty.txt', "utf8")
+        );
+        done();
+      });
     });
+
   });
 });
